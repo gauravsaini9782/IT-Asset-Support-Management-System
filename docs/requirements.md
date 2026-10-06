@@ -164,3 +164,92 @@ As an IT administrator, I want to add comments to support tickets so that I can 
 
 **US12**  
 As an IT administrator, I want to view dashboard statistics so that I can quickly understand the current status of assets and support requests.
+
+# Data Requirements
+## 1. User
+
+The User entity stores information about employees and IT administrators who can access the system.
+
+### Data Fields
+
+- **Name** — Full name of the user
+- **Email** — Email address used for login
+- **Password** — Securely hashed user password
+- **Role** — Employee or IT Administrator
+- **Department** — Department in which the employee works
+- **Account Status** — Active or Inactive
+- **Created At** — Date and time when the user account was created
+- **Updated At** — Date and time when the user account was last updated
+
+## 2. IT Asset
+
+The IT Asset entity stores information about organisational IT equipment managed through the system.
+
+### Data Fields
+
+- **Asset Name** — Name or description of the IT asset
+- **Asset Tag** — Unique identification code assigned to the asset
+- **Category** — Type of asset such as Laptop, Monitor, Mobile Phone, or Other
+- **Brand** — Manufacturer of the asset
+- **Model** — Model name or number
+- **Serial Number** — Manufacturer serial number
+- **Status** — Available, Assigned, Under Repair, or Archived
+- **Assigned To** — Employee currently responsible for the asset
+- **Purchase Date** — Date when the asset was purchased
+- **Notes** — Additional information about the asset
+- **Created At** — Date and time when the asset record was created
+- **Updated At** — Date and time when the asset record was last updated
+
+## 3. Support Ticket
+
+The Support Ticket entity stores technical issues reported by employees for their assigned IT assets.
+
+### Data Fields
+
+- **Title** — Short title describing the technical issue
+- **Description** — Detailed explanation of the problem
+- **Category** — Type of issue such as Hardware, Software, Network, or Other
+- **Priority** — Low, Medium, or High
+- **Status** — Open, In Progress, or Resolved
+- **Created By** — Employee who created the support ticket
+- **Related Asset** — IT asset associated with the reported problem
+- **Assigned To** — IT Administrator responsible for handling the ticket
+- **Created At** — Date and time when the ticket was created
+- **Updated At** — Date and time when the ticket was last updated
+- **Resolved At** — Date and time when the issue was resolved
+
+## 4. Ticket Comment
+
+The Ticket Comment entity stores communication between employees and IT administrators regarding a support ticket.
+
+### Data Fields
+
+- **Ticket** — Support ticket associated with the comment
+- **Author** — User who created the comment
+- **Message** — Content of the comment
+- **Created At** — Date and time when the comment was added
+- **Updated At** — Date and time when the comment was last updated
+
+## Entity Relationships
+
+### User and IT Asset
+- One employee can be assigned multiple IT assets.
+- One IT asset can be assigned to one employee at a time.
+- An IT asset may also remain unassigned.
+
+### User and Support Ticket
+- One employee can create multiple support tickets.
+- Each support ticket is created by one employee.
+- A support ticket can be assigned to an IT Administrator for handling.
+
+### IT Asset and Support Ticket
+- One IT asset can have multiple support tickets over time.
+- Each support ticket is associated with one IT asset.
+
+### Support Ticket and Ticket Comment
+- One support ticket can contain multiple comments.
+- Each comment belongs to one support ticket.
+
+### User and Ticket Comment
+- One user can create multiple ticket comments.
+- Each ticket comment is created by one user.
