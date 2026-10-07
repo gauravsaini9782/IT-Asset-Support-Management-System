@@ -57,6 +57,12 @@ const loginUser = async (req, res) => {
       });
     }
 
+    // Prevent inactive accounts from logging in
+    if (user.accountStatus !== "active") {
+      return res.status(403).json({
+        message: "Your account is inactive. Contact the IT administrator.",
+      });
+    }
     // Compare password with hashed password
     const passwordMatch = await bcrypt.compare(password, user.password);
 
