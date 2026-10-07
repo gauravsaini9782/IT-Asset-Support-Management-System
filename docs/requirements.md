@@ -38,7 +38,7 @@ Administrators will be able to:
 
 **FR03 — Role-Based Access:** The system shall restrict functionality according to Employee and IT Administrator roles.
 
-**FR04 — Employee Management:** Administrators shall be able to view and manage employee accounts.
+**FR04 — Employee Management:** Administrators shall be able to view employee accounts and update an employee's name, department, and account status. Employee accounts may be activated or deactivated but shall not be permanently deleted.
 
 **FR05 — Asset Creation:** Administrators shall be able to register new IT assets.
 
@@ -143,7 +143,7 @@ Administrators will be able to:
 
 ### IT Administrator
 
-**US07:** As an administrator, I want to manage employees so that system users can be maintained.
+**US07:** US07: As an administrator, I want to view employee accounts and update their details or account status so that employee access and information can be maintained.
 
 **US08:** As an administrator, I want to manage IT assets so that accurate equipment records are maintained.
 
