@@ -110,7 +110,7 @@ const assignTicket = async (req, res) => {
     const ticket = await Ticket.findByIdAndUpdate(
       req.params.id,
       { assignedTo: admin._id },
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!ticket) {
@@ -147,7 +147,7 @@ const updateTicketPriority = async (req, res) => {
     const ticket = await Ticket.findByIdAndUpdate(
       req.params.id,
       { $set: { priority } },
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!ticket) {
@@ -189,7 +189,7 @@ const updateTicketStatus = async (req, res) => {
         },
       },
       {
-        new: true,
+        returnDocument: "after",
         runValidators: true,
       },
     );
@@ -259,7 +259,6 @@ const addTicketComment = async (req, res) => {
     });
   }
 };
-
 
 // Get all comments for a support ticket
 const getTicketComments = async (req, res) => {

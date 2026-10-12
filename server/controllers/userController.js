@@ -29,7 +29,7 @@ const updateEmployee = async (req, res) => {
         accountStatus,
       },
       {
-        new: true,
+        returnDocument: "after",
         runValidators: true,
       },
     ).select("-password");

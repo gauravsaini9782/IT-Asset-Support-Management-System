@@ -67,7 +67,7 @@ const getAssets = async (req, res) => {
 const updateAsset = async (req, res) => {
   try {
     const asset = await Asset.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+      returnDocument: "after",
       runValidators: true,
     });
 
@@ -95,7 +95,7 @@ const archiveAsset = async (req, res) => {
         status: "archived",
         assignedTo: null,
       },
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!asset) {
@@ -149,7 +149,7 @@ const assignAsset = async (req, res) => {
           assignedTo: employee._id,
         },
       },
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!asset) {
@@ -182,7 +182,7 @@ const unassignAsset = async (req, res) => {
           assignedTo: null,
         },
       },
-      { new: true, runValidators: true },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!asset) {
