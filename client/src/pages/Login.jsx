@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,8 +26,37 @@ function Login() {
         return;
       }
 
-      console.log("Login successful:", data);
-      alert("Login successful!");
+      if (!data.token) {
+        alert("Login response did not include a token");
+        return;
+      }
+
+      sessionStorage.setItem("token", data.token);
+
+      const profileResponse = await fetch(
+        "http://localhost:5000/api/auth/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${data.token}`,
+          },
+        },
+      );
+
+      if (!profileResponse.ok) {
+        sessionStorage.removeItem("token");
+        alert("Unable to retrieve user profile");
+        return;
+      }
+
+      const profile = await profileResponse.json();
+
+      if (!["employee", "admin"].includes(profile.user?.role)) {
+        sessionStorage.removeItem("token");
+        alert("Invalid user role");
+        return;
+      }
+
+      onLogin(profile.user.role);
     } catch (error) {
       console.error("Login error:", error);
       alert("Unable to connect to the server");
