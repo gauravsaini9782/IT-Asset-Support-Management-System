@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TicketPriority from "../components/TicketPriority";
 import TicketAssignment from "../components/TicketAssignment";
 import TicketStatus from "../components/TicketStatus";
+import EmployeeEditForm from "../components/EmployeeEditForm";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -161,6 +162,14 @@ function AdminDashboard({ onLogout }) {
     );
   };
 
+  const handleEmployeeUpdated = (updatedEmployee) => {
+    setEmployees((previousEmployees) =>
+      previousEmployees.map((employee) =>
+        employee._id === updatedEmployee._id ? updatedEmployee : employee,
+      ),
+    );
+  };
+
   return (
     <main>
       <h1>IT Administrator Dashboard</h1>
@@ -184,6 +193,10 @@ function AdminDashboard({ onLogout }) {
                 <strong>{employee.name}</strong>
                 <p>Email: {employee.email}</p>
                 <p>Role: {employee.role}</p>
+                <EmployeeEditForm
+                  employee={employee}
+                  onEmployeeUpdated={handleEmployeeUpdated}
+                />
               </li>
             ))}
           </ul>
