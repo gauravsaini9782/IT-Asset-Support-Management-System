@@ -4,6 +4,7 @@ import TicketAssignment from "../components/TicketAssignment";
 import TicketStatus from "../components/TicketStatus";
 import EmployeeEditForm from "../components/EmployeeEditForm";
 import CreateAssetForm from "../components/CreateAssetForm";
+import AssetEditForm from "../components/AssetEditForm";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -175,6 +176,14 @@ function AdminDashboard({ onLogout }) {
     setAssets((previousAssets) => [newAsset, ...previousAssets]);
   };
 
+  const handleAssetUpdated = (updatedAsset) => {
+    setAssets((previousAssets) =>
+      previousAssets.map((asset) =>
+        asset._id === updatedAsset._id ? updatedAsset : asset,
+      ),
+    );
+  };
+
   return (
     <main>
       <h1>IT Administrator Dashboard</h1>
@@ -228,6 +237,10 @@ function AdminDashboard({ onLogout }) {
                 <p>Brand: {asset.brand}</p>
                 <p>Model: {asset.model}</p>
                 <p>Status: {asset.status}</p>
+                <AssetEditForm
+                  asset={asset}
+                  onAssetUpdated={handleAssetUpdated}
+                />
               </li>
             ))}
           </ul>
