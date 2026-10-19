@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import TicketPriority from "../components/TicketPriority";
+import TicketAssignment from "../components/TicketAssignment";
+import TicketStatus from "../components/TicketStatus";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -7,16 +9,20 @@ function AdminDashboard({ onLogout }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Administrator states
+  const [admins, setAdmins] = useState([]);
+
   // Asset states
   const [assets, setAssets] = useState([]);
   const [assetsLoading, setAssetsLoading] = useState(true);
   const [assetsError, setAssetsError] = useState("");
 
+  // Ticket states
   const [tickets, setTickets] = useState([]);
   const [ticketsLoading, setTicketsLoading] = useState(true);
   const [ticketsError, setTicketsError] = useState("");
 
-  // Fetch employees from the backend
+  // Fetch employees
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -44,7 +50,33 @@ function AdminDashboard({ onLogout }) {
     fetchEmployees();
   }, []);
 
-  // Fetch all IT assets from the backend
+  // Fetch active administrators
+  useEffect(() => {
+    const fetchAdmins = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+
+        const response = await fetch("http://localhost:5000/api/users/admins", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch administrators");
+        }
+
+        const data = await response.json();
+        setAdmins(data);
+      } catch (err) {
+        console.error("Administrator fetch error:", err.message);
+      }
+    };
+
+    fetchAdmins();
+  }, []);
+
+  // Fetch all IT assets
   useEffect(() => {
     const fetchAssets = async () => {
       try {
@@ -100,10 +132,31 @@ function AdminDashboard({ onLogout }) {
     fetchTickets();
   }, []);
 
+  // Update ticket priority in React state
   const handlePriorityUpdated = (ticketId, newPriority) => {
     setTickets((previousTickets) =>
       previousTickets.map((ticket) =>
         ticket._id === ticketId ? { ...ticket, priority: newPriority } : ticket,
+      ),
+    );
+  };
+
+  // Update ticket status in React state
+  const handleStatusUpdated = (ticketId, newStatus) => {
+    setTickets((previousTickets) =>
+      previousTickets.map((ticket) =>
+        ticket._id === ticketId ? { ...ticket, status: newStatus } : ticket,
+      ),
+    );
+  };
+
+  // Update assigned administrator in React state
+  const handleAssignmentUpdated = (ticketId, selectedAdmin) => {
+    setTickets((previousTickets) =>
+      previousTickets.map((ticket) =>
+        ticket._id === ticketId
+          ? { ...ticket, assignedTo: selectedAdmin }
+          : ticket,
       ),
     );
   };
@@ -182,12 +235,22 @@ function AdminDashboard({ onLogout }) {
                 <p>Employee: {ticket.createdBy?.name || "Unknown"}</p>
                 <p>Asset: {ticket.relatedAsset?.assetName || "Unknown"}</p>
                 <p>Category: {ticket.category}</p>
+
                 <TicketPriority
                   ticket={ticket}
                   onPriorityUpdated={handlePriorityUpdated}
                 />
-                <p>Status: {ticket.status}</p>
-                <p>Assigned To: {ticket.assignedTo?.name || "Unassigned"}</p>
+
+                <TicketStatus
+                  ticket={ticket}
+                  onStatusUpdated={handleStatusUpdated}
+                />
+
+                <TicketAssignment
+                  ticket={ticket}
+                  admins={admins}
+                  onAssignmentUpdated={handleAssignmentUpdated}
+                />
               </li>
             ))}
           </ul>

@@ -51,7 +51,24 @@ const updateEmployee = async (req, res) => {
   }
 };
 
+// Get all active administrators
+const getAdmins = async (req, res) => {
+  try {
+    const admins = await User.find({
+      role: "admin",
+      accountStatus: "active",
+    }).select("name email role");
+
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   getEmployees,
   updateEmployee,
+  getAdmins,
 };
