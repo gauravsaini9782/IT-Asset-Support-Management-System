@@ -3,6 +3,7 @@ import TicketPriority from "../components/TicketPriority";
 import TicketAssignment from "../components/TicketAssignment";
 import TicketStatus from "../components/TicketStatus";
 import EmployeeEditForm from "../components/EmployeeEditForm";
+import CreateAssetForm from "../components/CreateAssetForm";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -170,6 +171,10 @@ function AdminDashboard({ onLogout }) {
     );
   };
 
+  const handleAssetCreated = (newAsset) => {
+    setAssets((previousAssets) => [newAsset, ...previousAssets]);
+  };
+
   return (
     <main>
       <h1>IT Administrator Dashboard</h1>
@@ -206,7 +211,7 @@ function AdminDashboard({ onLogout }) {
       {/* IT Asset Management Section */}
       <section>
         <h2>IT Asset Management</h2>
-
+        <CreateAssetForm onAssetCreated={handleAssetCreated} />
         {assetsLoading ? (
           <p>Loading assets...</p>
         ) : assetsError ? (
