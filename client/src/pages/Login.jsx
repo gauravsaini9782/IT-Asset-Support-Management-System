@@ -64,7 +64,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <main>
+    <main className="auth-page">
       <h1>Welcome Back</h1>
       <p>Sign in to your IT Asset & Support Management System</p>
 
