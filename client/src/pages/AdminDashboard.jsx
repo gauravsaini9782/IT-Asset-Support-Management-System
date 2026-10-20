@@ -7,6 +7,7 @@ import CreateAssetForm from "../components/CreateAssetForm";
 import AssetEditForm from "../components/AssetEditForm";
 import AssetAssignment from "../components/AssetAssignment";
 import AssetUnassignment from "../components/AssetUnassignment";
+import AssetArchive from "../components/AssetArchive";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -252,7 +253,10 @@ function AdminDashboard({ onLogout }) {
                   asset={asset}
                   onAssetUpdated={handleAssetUpdated}
                 />
-                
+                <AssetArchive
+                  asset={asset}
+                  onAssetUpdated={handleAssetUpdated}
+                />
               </li>
             ))}
           </ul>
