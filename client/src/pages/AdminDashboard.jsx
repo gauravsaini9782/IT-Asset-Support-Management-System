@@ -5,6 +5,8 @@ import TicketStatus from "../components/TicketStatus";
 import EmployeeEditForm from "../components/EmployeeEditForm";
 import CreateAssetForm from "../components/CreateAssetForm";
 import AssetEditForm from "../components/AssetEditForm";
+import AssetAssignment from "../components/AssetAssignment";
+import AssetUnassignment from "../components/AssetUnassignment";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -241,6 +243,16 @@ function AdminDashboard({ onLogout }) {
                   asset={asset}
                   onAssetUpdated={handleAssetUpdated}
                 />
+                <AssetAssignment
+                  asset={asset}
+                  employees={employees}
+                  onAssetUpdated={handleAssetUpdated}
+                />
+                <AssetUnassignment
+                  asset={asset}
+                  onAssetUpdated={handleAssetUpdated}
+                />
+                
               </li>
             ))}
           </ul>
