@@ -216,11 +216,49 @@ const getMyAssets = async (req, res) => {
   }
 };
 
+// Restore an archived asset
+const restoreAsset = async (req, res) => {
+  try {
+    const asset = await Asset.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        status: "archived",
+      },
+      {
+        $set: {
+          status: "available",
+          assignedTo: null,
+        },
+      },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
+
+    if (!asset) {
+      return res.status(404).json({
+        message: "Archived asset not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Asset restored successfully",
+      asset,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   createAsset,
   getAssets,
   updateAsset,
   archiveAsset,
+  restoreAsset,
   assignAsset,
   unassignAsset,
   getMyAssets,

@@ -8,6 +8,7 @@ import AssetEditForm from "../components/AssetEditForm";
 import AssetAssignment from "../components/AssetAssignment";
 import AssetUnassignment from "../components/AssetUnassignment";
 import AssetArchive from "../components/AssetArchive";
+import AssetRestore from "../components/AssetRestore";
 
 function AdminDashboard({ onLogout }) {
   // Employee states
@@ -187,11 +188,74 @@ function AdminDashboard({ onLogout }) {
     );
   };
 
+  // Dashboard statistics
+  const totalEmployees = employees.length;
+
+  const totalAssets = assets.length;
+
+  const assignedAssets = assets.filter(
+    (asset) => asset.status === "assigned",
+  ).length;
+
+  const availableAssets = assets.filter(
+    (asset) => asset.status === "available",
+  ).length;
+
+  const totalTickets = tickets.length;
+
+  const openTickets = tickets.filter(
+    (ticket) => ticket.status === "open",
+  ).length;
+  const archivedAssets = assets.filter(
+    (asset) => asset.status === "archived",
+  ).length;
+
   return (
     <main>
       <h1>IT Administrator Dashboard</h1>
 
       <p>Welcome to the IT Asset & Support Management System.</p>
+
+      {/* Dashboard Statistics */}
+      <section>
+        <h2>Dashboard Overview</h2>
+
+        <div className="dashboard-stats">
+          <div>
+            <h3>Total Employees</h3>
+            <p>{totalEmployees}</p>
+          </div>
+
+          <div>
+            <h3>Total Assets</h3>
+            <p>{totalAssets}</p>
+          </div>
+
+          <div>
+            <h3>Assigned Assets</h3>
+            <p>{assignedAssets}</p>
+          </div>
+
+          <div>
+            <h3>Available Assets</h3>
+            <p>{availableAssets}</p>
+          </div>
+          <div>
+            <h3>Archived Assets</h3>
+            <p>{archivedAssets}</p>
+          </div>
+
+          <div>
+            <h3>Total Tickets</h3>
+            <p>{totalTickets}</p>
+          </div>
+
+          <div>
+            <h3>Open Tickets</h3>
+            <p>{openTickets}</p>
+          </div>
+        </div>
+      </section>
 
       {/* Employee Management Section */}
       <section>
@@ -254,6 +318,10 @@ function AdminDashboard({ onLogout }) {
                   onAssetUpdated={handleAssetUpdated}
                 />
                 <AssetArchive
+                  asset={asset}
+                  onAssetUpdated={handleAssetUpdated}
+                />
+                <AssetRestore
                   asset={asset}
                   onAssetUpdated={handleAssetUpdated}
                 />

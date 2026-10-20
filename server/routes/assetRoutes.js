@@ -5,6 +5,7 @@ const {
   getAssets,
   updateAsset,
   archiveAsset,
+  restoreAsset,
   assignAsset,
   unassignAsset,
   getMyAssets,
@@ -24,6 +25,9 @@ router.get("/my-assets", protect, getMyAssets);
 
 // Archive asset
 router.patch("/:id/archive", protect, adminOnly, archiveAsset);
+
+// Restore an archived asset
+router.patch("/:id/restore", protect, adminOnly, restoreAsset);
 
 // Assign asset to employee
 router.patch("/:id/assign", protect, adminOnly, assignAsset);
