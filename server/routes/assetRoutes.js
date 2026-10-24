@@ -9,6 +9,7 @@ const {
   assignAsset,
   unassignAsset,
   getMyAssets,
+  deleteAsset,
 } = require("../controllers/assetController");
 
 const protect = require("../middleware/authMiddleware");
@@ -16,23 +17,23 @@ const adminOnly = require("../middleware/roleMiddleware");
 
 const router = express.Router();
 
-// Asset Management
-router.post("/", protect, adminOnly, createAsset);
-router.get("/", protect, adminOnly, getAssets);
-router.put("/:id", protect, adminOnly, updateAsset);
 // Employee: View their own assigned assets
 router.get("/my-assets", protect, getMyAssets);
 
-// Archive asset
-router.patch("/:id/archive", protect, adminOnly, archiveAsset);
+// Admin: Asset Management
+router.post("/", protect, adminOnly, createAsset);
+router.get("/", protect, adminOnly, getAssets);
+router.put("/:id", protect, adminOnly, updateAsset);
 
-// Restore an archived asset
+// Admin: Archive and Restore
+router.patch("/:id/archive", protect, adminOnly, archiveAsset);
 router.patch("/:id/restore", protect, adminOnly, restoreAsset);
 
-// Assign asset to employee
+// Admin: Assign and Unassign
 router.patch("/:id/assign", protect, adminOnly, assignAsset);
-
-// Unassign asset from employee
 router.patch("/:id/unassign", protect, adminOnly, unassignAsset);
+
+// Admin: Permanently Delete Asset
+router.delete("/:id", protect, adminOnly, deleteAsset);
 
 module.exports = router;

@@ -9,6 +9,7 @@ import AssetAssignment from "../components/AssetAssignment";
 import AssetUnassignment from "../components/AssetUnassignment";
 import AssetArchive from "../components/AssetArchive";
 import AssetRestore from "../components/AssetRestore";
+import DeleteAsset from "../components/DeleteAsset";
 
 const icons = {
   overview: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
@@ -273,6 +274,13 @@ function AdminDashboard({ onLogout }) {
     );
   };
 
+  // Remove permanently deleted asset from the dashboard
+  const handleAssetDeleted = (deletedAssetId) => {
+    setAssets((previousAssets) =>
+      previousAssets.filter((asset) => asset._id !== deletedAssetId),
+    );
+  };
+
   // Dashboard statistics
   const totalEmployees = employees.length;
 
@@ -487,10 +495,10 @@ function AdminDashboard({ onLogout }) {
           </div>
         </header>
 
-        <main className="mx-auto max-w-[1500px] px-4 py-8 sm:px-8">
+        <main className="mx-auto max-w-375 px-4 py-8 sm:px-8">
           {activeTab === "overview" && (
             <>
-              <div className="mb-8 overflow-hidden rounded-2xl bg-gradient-to-r from-[#1b2b54] via-[#283e7c] to-[#4f46a5] px-7 py-9 text-white shadow-lg sm:px-10">
+              <div className="mb-8 overflow-hidden rounded-2xl bg-linear-to-r from-[#1b2b54] via-[#283e7c] to-[#4f46a5] px-7 py-9 text-white shadow-lg sm:px-10">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-200">
                   Admin workspace
                 </p>
@@ -815,6 +823,10 @@ function AdminDashboard({ onLogout }) {
                         <AssetRestore
                           asset={asset}
                           onAssetUpdated={handleAssetUpdated}
+                        />
+                        <DeleteAsset
+                          asset={asset}
+                          onAssetDeleted={handleAssetDeleted}
                         />
                       </div>
                     </article>

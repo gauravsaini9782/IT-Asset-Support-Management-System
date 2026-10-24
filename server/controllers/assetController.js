@@ -253,6 +253,50 @@ const restoreAsset = async (req, res) => {
   }
 };
 
+const Ticket = require("../models/Ticket");
+
+// Permanently delete an asset if no support tickets reference it
+const deleteAsset = async (req, res) => {
+  try {
+    const asset = await Asset.findById(req.params.id);
+
+    if (!asset) {
+      return res.status(404).json({
+        message: "Asset not found",
+      });
+    }
+
+    // Protect ticket history from broken asset references
+    const ticketExists = await Ticket.exists({
+      relatedAsset: asset._id,
+    });
+
+    if (ticketExists) {
+      return res.status(409).json({
+        message:
+          "This asset has support ticket history and cannot be permanently deleted. Archive it instead.",
+      });
+    }
+
+    await Asset.findByIdAndDelete(asset._id);
+
+    return res.status(200).json({
+      message: "Asset permanently deleted successfully",
+      deletedAssetId: asset._id,
+    });
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        message: "Invalid asset ID",
+      });
+    }
+
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   createAsset,
   getAssets,
@@ -262,4 +306,5 @@ module.exports = {
   assignAsset,
   unassignAsset,
   getMyAssets,
+  deleteAsset,
 };
