@@ -10,6 +10,7 @@ import AssetUnassignment from "../components/AssetUnassignment";
 import AssetArchive from "../components/AssetArchive";
 import AssetRestore from "../components/AssetRestore";
 import DeleteAsset from "../components/DeleteAsset";
+import TicketComments from "../components/TicketComments";
 
 const icons = {
   overview: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z",
@@ -923,6 +924,9 @@ function AdminDashboard({ onLogout }) {
                           admins={admins}
                           onAssignmentUpdated={handleAssignmentUpdated}
                         />
+                        <div className="border-t border-slate-200 pt-5">
+                          <TicketComments ticketId={ticket._id} />
+                        </div>
                       </div>
                     </article>
                   ))}
