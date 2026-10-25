@@ -87,6 +87,27 @@ const assignTicket = async (req, res) => {
   try {
     const { adminId } = req.body;
 
+    // Allow an administrator to unassign a ticket
+    if (adminId === null) {
+      const ticket = await Ticket.findByIdAndUpdate(
+        req.params.id,
+        { $set: { assignedTo: null } },
+        { returnDocument: "after", runValidators: true },
+      );
+
+      if (!ticket) {
+        return res.status(404).json({
+          message: "Ticket not found",
+        });
+      }
+
+      return res.status(200).json({
+        message: "Ticket unassigned successfully",
+        ticket,
+      });
+    }
+
+    // Require an administrator ID for assigning a ticket
     if (!adminId) {
       return res.status(400).json({
         message: "Administrator ID is required",
