@@ -2,6 +2,7 @@ const Ticket = require("../models/Ticket");
 const Asset = require("../models/Asset");
 const User = require("../models/User");
 const Comment = require("../models/Comment");
+const mongoose = require("mongoose");
 
 // Employee creates a support ticket
 const createTicket = async (req, res) => {
@@ -9,9 +10,49 @@ const createTicket = async (req, res) => {
     const { title, description, category, relatedAsset } = req.body;
 
     // Validate required fields
-    if (!title || !description || !category || !relatedAsset) {
+    if (
+      typeof title !== "string" ||
+      typeof description !== "string" ||
+      !title.trim() ||
+      !description.trim() ||
+      !category ||
+      !relatedAsset
+    ) {
       return res.status(400).json({
-        message: "All required fields must be provided",
+        message: "All required fields must be provided correctly",
+      });
+    }
+
+    // Validate title length
+    if (title.trim().length < 5 || title.trim().length > 100) {
+      return res.status(400).json({
+        message: "Title must contain between 5 and 100 characters",
+      });
+    }
+
+    // Validate description length
+    if (description.trim().length < 10 || description.trim().length > 1000) {
+      return res.status(400).json({
+        message: "Description must contain between 10 and 1000 characters",
+      });
+    }
+
+    // Validate ticket category
+    const allowedCategories = ["hardware", "software", "network", "other"];
+
+    if (typeof category !== "string" || !allowedCategories.includes(category)) {
+      return res.status(400).json({
+        message: "Category must be hardware, software, network, or other",
+      });
+    }
+
+    // Validate MongoDB asset ID
+    if (
+      typeof relatedAsset !== "string" ||
+      !mongoose.isObjectIdOrHexString(relatedAsset)
+    ) {
+      return res.status(400).json({
+        message: "Invalid asset ID",
       });
     }
 
@@ -30,19 +71,27 @@ const createTicket = async (req, res) => {
 
     // Create the ticket
     const ticket = await Ticket.create({
-      title,
-      description,
+      title: title.trim(),
+      description: description.trim(),
       category,
       relatedAsset: asset._id,
       createdBy: req.user.id,
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Support ticket created successfully",
       ticket,
     });
   } catch (error) {
-    res.status(500).json({
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    console.error("Create ticket error:", error);
+
+    return res.status(500).json({
       message: "Server error",
     });
   }
@@ -156,7 +205,6 @@ const updateTicketPriority = async (req, res) => {
   try {
     const { priority } = req.body;
 
-    // Validate the priority
     const allowedPriorities = ["low", "medium", "high"];
 
     if (!allowedPriorities.includes(priority)) {

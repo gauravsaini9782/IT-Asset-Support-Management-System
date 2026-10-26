@@ -4,12 +4,18 @@ const ticketSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: [true, "Ticket title is required"],
+      trim: true,
+      minlength: [5, "Title must contain at least 5 characters"],
+      maxlength: [100, "Title cannot exceed 100 characters"],
     },
 
     description: {
       type: String,
-      required: true,
+      required: [true, "Ticket description is required"],
+      trim: true,
+      minlength: [10, "Description must contain at least 10 characters"],
+      maxlength: [1000, "Description cannot exceed 1000 characters"],
     },
 
     category: {
