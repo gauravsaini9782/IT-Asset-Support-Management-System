@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CreateTicketForm from "../components/CreateTicketForm";
 import TicketComments from "../components/TicketComments";
+import EmployeeProfile from "../components/EmployeeProfile";
 
 function EmployeeDashboard({ onLogout }) {
   const [assets, setAssets] = useState([]);
@@ -211,6 +212,9 @@ function EmployeeDashboard({ onLogout }) {
             ticket progress.
           </p>
         </section>
+
+        {/* Employee Profile */}
+        <EmployeeProfile />
 
         {/* Statistics */}
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
