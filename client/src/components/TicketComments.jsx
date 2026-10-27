@@ -7,7 +7,7 @@ function TicketComments({ ticketId }) {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  const API_URL = `http://localhost:5000/api/tickets/${ticketId}/comments`;
+  const API_URL = `${import.meta.env.VITE_API_URL}/api/tickets/${ticketId}/comments`;
 
   // Fetch all comments for the selected ticket
   useEffect(() => {

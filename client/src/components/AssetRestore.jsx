@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../config";
 
 function AssetRestore({ asset, onAssetUpdated }) {
   const [loading, setLoading] = useState(false);
@@ -13,7 +14,7 @@ function AssetRestore({ asset, onAssetUpdated }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/assets/${asset._id}/restore`,
+        `${API_BASE_URL}/api/assets/${asset._id}/restore`,
         {
           method: "PATCH",
           headers: {

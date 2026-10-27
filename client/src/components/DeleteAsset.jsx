@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 function DeleteAsset({ asset, onAssetDeleted }) {
@@ -14,13 +13,13 @@ function DeleteAsset({ asset, onAssetDeleted }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/assets/${asset._id}`,
+        `${import.meta.env.VITE_API_URL}/api/assets/${asset._id}`,
         {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const data = await response.json();
@@ -64,7 +63,6 @@ function DeleteAsset({ asset, onAssetDeleted }) {
         >
           <path d="M3 6h18M8 6V4h8v2M5 6l1 14h12l1-14M10 10v6M14 10v6" />
         </svg>
-
         Delete Permanently
       </button>
 
@@ -79,13 +77,13 @@ function DeleteAsset({ asset, onAssetDeleted }) {
 
           <p className="mt-2 text-sm leading-6 text-red-800">
             You are about to permanently delete{" "}
-            <strong>{asset.assetName}</strong> ({asset.assetTag}).
-            This action cannot be undone.
+            <strong>{asset.assetName}</strong> ({asset.assetTag}). This action
+            cannot be undone.
           </p>
 
           <p className="mt-2 text-xs text-red-700">
-            Assets with support ticket history cannot be deleted.
-            Archive those assets instead.
+            Assets with support ticket history cannot be deleted. Archive those
+            assets instead.
           </p>
 
           {error && (

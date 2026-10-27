@@ -18,7 +18,7 @@ function AssetUnassignment({ asset, onAssetUpdated }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/assets/${asset._id}/unassign`,
+        `${import.meta.env.VITE_API_URL}/api/assets/${asset._id}/unassign`,
         {
           method: "PATCH",
           headers: {

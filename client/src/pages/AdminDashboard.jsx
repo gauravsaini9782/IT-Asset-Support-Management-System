@@ -122,11 +122,14 @@ function AdminDashboard({ onLogout }) {
       try {
         const token = sessionStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/users", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch employees");
@@ -150,11 +153,14 @@ function AdminDashboard({ onLogout }) {
       try {
         const token = sessionStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/users/admins", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users/admins`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch administrators");
@@ -176,11 +182,14 @@ function AdminDashboard({ onLogout }) {
       try {
         const token = sessionStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/assets", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/assets`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch IT assets");
@@ -204,11 +213,14 @@ function AdminDashboard({ onLogout }) {
       try {
         const token = sessionStorage.getItem("token");
 
-        const response = await fetch("http://localhost:5000/api/tickets", {
-          headers: {
-            Authorization: `Bearer ${token}`,
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/tickets`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch support tickets");

@@ -22,7 +22,7 @@ function TicketPriority({ ticket, onPriorityUpdated }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/tickets/${ticket._id}/priority`,
+        `${import.meta.env.VITE_API_URL}/api/tickets/${ticket._id}/priority`,
         {
           method: "PATCH",
           headers: {

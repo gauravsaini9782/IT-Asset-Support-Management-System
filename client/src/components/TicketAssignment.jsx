@@ -18,7 +18,7 @@ function TicketAssignment({ ticket, admins, onAssignmentUpdated }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/tickets/${ticket._id}/assign`,
+        `${import.meta.env.VITE_API_URL}/api/tickets/${ticket._id}/assign`,
         {
           method: "PATCH",
           headers: {

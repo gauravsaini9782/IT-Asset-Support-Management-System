@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../config";
 
 function AssetAssignment({ asset, employees, onAssetUpdated }) {
   const [employeeId, setEmployeeId] = useState("");
@@ -28,7 +29,7 @@ function AssetAssignment({ asset, employees, onAssetUpdated }) {
       const token = sessionStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:5000/api/assets/${asset._id}/assign`,
+        `${API_BASE_URL}/api/assets/${asset._id}/assign`,
         {
           method: "PATCH",
           headers: {

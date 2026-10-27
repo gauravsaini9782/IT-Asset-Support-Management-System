@@ -47,19 +47,22 @@ function CreateTicketForm({ assets, onTicketCreated }) {
     try {
       const token = sessionStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/api/tickets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/tickets`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: trimmedTitle,
+            description: trimmedDescription,
+            category,
+            relatedAsset,
+          }),
         },
-        body: JSON.stringify({
-          title: trimmedTitle,
-          description: trimmedDescription,
-          category,
-          relatedAsset,
-        }),
-      });
+      );
 
       const data = await response.json();
 

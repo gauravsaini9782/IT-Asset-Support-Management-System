@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../config";
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ function Login({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,14 +39,11 @@ function Login({ onLogin }) {
       }
 
       // Retrieve user profile using the JWT token
-      const profileResponse = await fetch(
-        "http://localhost:5000/api/auth/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${data.token}`,
-          },
+      const profileResponse = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
         },
-      );
+      });
 
       if (!profileResponse.ok) {
         throw new Error("Unable to retrieve user profile");
