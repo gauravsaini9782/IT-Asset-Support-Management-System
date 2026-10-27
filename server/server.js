@@ -28,6 +28,29 @@ app.get("/", (req, res) => {
   res.send("IT Asset & Support Management System API is running");
 });
 
+// Handle unknown API routes
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    message: "API endpoint not found",
+  });
+});
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  res.status(err.status || err.statusCode || 500).json({
+    message:
+      err.status === 400 || err.statusCode === 400
+        ? "Invalid request"
+        : "Internal server error",
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
