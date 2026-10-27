@@ -23,6 +23,20 @@ function CreateTicketForm({ assets, onTicketCreated }) {
       return;
     }
 
+    // Validate title length
+    if (trimmedTitle.length < 5 || trimmedTitle.length > 100) {
+      setError("Issue title must contain between 5 and 100 characters.");
+      return;
+    }
+
+    // Validate description length
+    if (trimmedDescription.length < 10 || trimmedDescription.length > 1000) {
+      setError(
+        "Issue description must contain between 10 and 1000 characters.",
+      );
+      return;
+    }
+
     if (!assets.some((asset) => asset._id === relatedAsset)) {
       setError("Please select a valid assigned asset.");
       return;
@@ -89,7 +103,8 @@ function CreateTicketForm({ assets, onTicketCreated }) {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
           placeholder="e.g. Laptop is not connecting to Wi-Fi"
-          maxLength={120}
+          minLength={5}
+          maxLength={100}
           required
           disabled={submitting}
           className={inputClass}
@@ -166,7 +181,8 @@ function CreateTicketForm({ assets, onTicketCreated }) {
           onChange={(event) => setDescription(event.target.value)}
           placeholder="Describe the issue, when it started, and any troubleshooting steps you have tried..."
           rows={5}
-          maxLength={2000}
+          minLength={10}
+          maxLength={1000}
           required
           disabled={submitting}
           className={`${inputClass} resize-y`}
@@ -178,7 +194,7 @@ function CreateTicketForm({ assets, onTicketCreated }) {
           </p>
 
           <span className="text-xs text-slate-400">
-            {description.length}/2000
+            {description.length}/1000
           </span>
         </div>
       </div>
