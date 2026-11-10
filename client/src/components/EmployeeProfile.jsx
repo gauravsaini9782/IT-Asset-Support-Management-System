@@ -75,7 +75,7 @@ function EmployeeProfile() {
 
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 bg-gradient-to-r from-indigo-50 to-white p-6">
+      <div className="border-b border-slate-200 bg-linear-to-r from-indigo-50 to-white p-6">
         <h2 className="text-xl font-bold text-slate-900">My Profile</h2>
         <p className="mt-1 text-sm text-slate-500">
           Your employee account information
@@ -114,7 +114,7 @@ function EmployeeProfile() {
               className="rounded-xl border border-slate-200 bg-slate-50 p-4"
             >
               <p className="text-xs font-medium text-slate-500">{label}</p>
-              <p className="mt-2 break-words text-sm font-semibold capitalize text-slate-900">
+              <p className="mt-2 wrap-break-words text-sm font-semibold capitalize text-slate-900">
                 {value || "Not provided"}
               </p>
             </div>
